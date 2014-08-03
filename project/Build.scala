@@ -343,10 +343,11 @@ object GeotrellisBuild extends Build {
   lazy val spark: Project =
     Project("spark", file("spark"))
       .settings(sparkSettings: _*)
-      .dependsOn(raster, testkit % "test")
+      .dependsOn(vector, raster, testkit % "test")
 
   // using hadoop and spark version from environment was inspired by Spark itself
-  val DEFAULT_HADOOP_VERSION = "0.20.2-cdh3u4"
+  //val DEFAULT_HADOOP_VERSION = "0.20.2-cdh3u4"
+  val DEFAULT_HADOOP_VERSION = "2.2.0"
   lazy val hadoopVersion = Properties.envOrElse("SPARK_HADOOP_VERSION", DEFAULT_HADOOP_VERSION)
 
   val DEFAULT_SPARK_VERSION = "1.0.0"
@@ -379,6 +380,8 @@ object GeotrellisBuild extends Build {
           "org.geotools" % "gt-coverage" % Version.geotools,
           "org.geotools" % "gt-geotiff" % Version.geotools,
           "org.geotools" % "gt-epsg-hsql" % Version.geotools,
+          "geomesa" % "geomesa-compute-accumulo1.5" % "1.0.0-SNAPSHOT",
+          "geomesa" % "geomesa-plugin-accumulo1.5" % "1.0.0-SNAPSHOT",
           "javax.media" % "jai_core" % "1.1.3" from "http://download.osgeo.org/webdav/geotools/javax/media/jai_core/1.1.3/jai_core-1.1.3.jar"
         ),
       resolvers ++= Seq(
